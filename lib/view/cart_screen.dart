@@ -16,17 +16,16 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     final provider = context.watch<CartProvider>();
     final cartList = provider.cart;
+
     Widget  productQuantity(IconData icon, int index) {
       return GestureDetector(
         onTap: () {
-          setState(() {
             icon == Icons.add
                 ? provider.incrementQnt(index)
                 : provider.decrementQnt(index);
-          });
-        },
+          },
         child: Icon(icon, size: 20),
-      );
+          );
     }
     return SafeArea(
       child: SingleChildScrollView(

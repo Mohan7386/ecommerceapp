@@ -10,7 +10,7 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addToCard(Product product) {
+  void addToCart(Product product) {
     cart.add(product);
     notifyListeners();
   }
@@ -24,7 +24,7 @@ class CartProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-  totalPrice (){
+   totalPrice (){
     double total1 = 0.0;
     for (Product element in cart){
       total1 += element.price * element.quantity;

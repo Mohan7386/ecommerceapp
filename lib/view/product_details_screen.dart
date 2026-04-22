@@ -7,6 +7,7 @@ import 'package:ecommerce_app/view/widgets/product.dart';
 import 'package:ecommerce_app/view/widgets/rating_widget.dart';
 import 'package:ecommerce_app/view/widgets/star_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../controller/cart_provider.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -184,7 +185,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   ),
                   onPressed: () {
-                    provider.addToCard(widget.product);
+                    context.read<CartProvider>().addToCart(widget.product);
                     ScaffoldMessenger.of(
                       context,
                     ).showSnackBar(SnackBar(content: Text("Added to Cart")));
