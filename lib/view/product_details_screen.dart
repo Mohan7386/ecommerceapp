@@ -2,10 +2,9 @@ import 'package:ecommerce_app/controller/favorite_provider.dart';
 import 'package:ecommerce_app/utils/app_text_styles.dart';
 import 'package:ecommerce_app/view/widgets/product_details_list_slider.dart';
 import 'package:ecommerce_app/view/widgets/sizeSelector.dart';
-import 'package:ecommerce_app/view/widgets/detailimage_slider.dart';
+import 'package:ecommerce_app/view/widgets/detail_image_slider.dart';
 import 'package:ecommerce_app/view/widgets/product.dart';
 import 'package:ecommerce_app/view/widgets/rating_widget.dart';
-import 'package:ecommerce_app/view/widgets/star_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../controller/cart_provider.dart';
@@ -25,7 +24,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = CartProvider.of(context);
     final favProvider = FavoriteProvider.of(context);
     return Scaffold(
       appBar: AppBar(
@@ -123,8 +121,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             style: AppTextStyle.bodyMedium,
                           ),
                           SizedBox(height: 10),
-                         StarWidget(product:widget.product ),
-                         // RatingWidget(rating: 4.5, reviewCount: 128),
+                         RatingWidget(product:widget.product ),
                           Row(
                             children: [
                               Text(
@@ -179,7 +176,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
                     padding: EdgeInsets.symmetric(vertical: 15),
-                    //  side: BorderSide(color: Colors.blue, width: 2),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
