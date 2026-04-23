@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 class MyDetailImageSlider extends StatelessWidget {
   final PageController controller;
   final Function(int) onChange;
-  final List<String>images;
+  final List<String> images;
 
   const MyDetailImageSlider({
     super.key,
     required this.onChange,
-    required this.images, required this.controller,
+    required this.images,
+    required this.controller,
   });
 
   @override
@@ -22,9 +23,8 @@ class MyDetailImageSlider extends StatelessWidget {
         itemCount: images.length,
         itemBuilder: (BuildContext context, int index) {
           return ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              //clipBehavior: Clip.hardEdge,
-              child: Image.asset(images[index], fit: BoxFit.cover)
+            borderRadius: BorderRadius.circular(10),
+            child: Image.asset(images[index], fit: BoxFit.contain),
           );
         },
       ),

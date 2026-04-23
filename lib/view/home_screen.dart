@@ -29,7 +29,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final viewProvider = context.watch<ViewProvider>();
     double width = MediaQuery.of(context).size.width;
+
+    // responsive counts
     int productCount = (width ~/ 250) < 2 ? 2 : (width ~/ 250);
+    int categoryCount = width > 800 ? 6 : 3;
 
     return Scaffold(
       backgroundColor: Colors.white,

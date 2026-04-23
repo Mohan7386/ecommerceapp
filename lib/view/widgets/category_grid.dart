@@ -14,6 +14,10 @@ class _CategoryGridState extends State<CategoryGrid> {
 
   @override
   Widget build(BuildContext context) {
+
+    double width = MediaQuery.of(context).size.width;
+    int categoryCount = width > 800 ? 6 : 3;
+
     return GridView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
@@ -21,7 +25,7 @@ class _CategoryGridState extends State<CategoryGrid> {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisSpacing: 3,
         mainAxisSpacing: 3,
-        crossAxisCount: 3,
+        crossAxisCount: categoryCount,
       ),
       itemBuilder: (BuildContext context, int index) {
         final category = categories[index];

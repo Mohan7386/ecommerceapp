@@ -46,8 +46,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           style: AppTextStyle.withColor(Colors.black87, AppTextStyle.h3),
         ),
       ),
-      body: Stack(
-        children: [
+      body:// Stack(
+       // children: [
           SafeArea(
             child: SingleChildScrollView(
               child: Padding(
@@ -77,7 +77,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             onTap: () {
                               setState(() {
                                 currentImageIndex = index;
-                              });_controller.jumpToPage(index);
+                              });_controller.animateToPage(
+                                index,
+                                duration: Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
                             },
                           );
                         },
@@ -88,7 +92,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       alignment: Alignment.bottomCenter,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(widget.product.images.length, (index) {
+                        children: List.generate(
+                            widget.product.images.length, (index) {
                           return AnimatedContainer(
                             duration: Duration(milliseconds: 300),
                             width: currentImageIndex == index ? 20 : 10,
@@ -164,8 +169,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
             // ButtonSection
           ),
-        ],
-      ),
+       // ],
+    //  ),
       bottomNavigationBar: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(18.0),
