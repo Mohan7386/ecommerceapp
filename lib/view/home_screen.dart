@@ -1,10 +1,12 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app/controller/view_controller.dart';
 import 'package:ecommerce_app/utils/app_text_styles.dart';
 import 'package:ecommerce_app/view/favorite_screen.dart';
-import 'package:ecommerce_app/view/widgets/carosel_slider.dart';
+import 'package:ecommerce_app/view/view_all_screen.dart';
+import 'package:ecommerce_app/view/widgets/carousel_slider.dart';
 import 'package:ecommerce_app/view/widgets/category_grid.dart';
-import 'package:ecommerce_app/view/widgets/custom_textField.dart';
+import 'package:ecommerce_app/view/widgets/custom_text_field.dart';
 import 'package:ecommerce_app/view/widgets/product.dart';
 import 'package:ecommerce_app/view/widgets/product_card.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +20,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String category = "All";
   bool showLocation = false;
   String selectedLocation = "Hyderabad";
 
-  final List<String> locations = [
-    "Hyderabad",
-  ];
+  final List<String> locations = ["Hyderabad"];
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // responsive counts
     int productCount = (width ~/ 250) < 2 ? 2 : (width ~/ 250);
-    int categoryCount = width > 800 ? 6 : 3;
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -78,6 +77,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     Icon(Icons.notifications, color: Colors.grey.shade700),
                     SizedBox(width: 10),
                     IconButton(
+                      style: IconButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadiusGeometry.circular(15),
+                        ),
+                        backgroundColor: Colors.white,
+                      ),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -111,21 +116,24 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 6),
-                            child: Text(
-                              loc,
-                              style: TextStyle(fontSize: 16),
-                            ),
+                            child: Text(loc, style: TextStyle(fontSize: 16)),
                           ),
                         );
                       }).toList(),
                     ),
                   ),
                 SizedBox(height: 15),
-                CustomTextField(label: "Search", prefixIcon: Icons.search),
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: "Search for Anything",
+                    prefixIcon: Icon(Icons.search),
+                  ),
+                ),
                 SizedBox(height: 15),
                 // Banner Section
                 BannerSlider(),
                 SizedBox(height: 15),
+
                 // Categories Section
                 Align(
                   alignment: Alignment.centerLeft,
@@ -138,7 +146,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 SizedBox(height: 10),
-                CategoryGrid(),
+                CategoryGrid(
+                  onCategorySelected: (value) {
+                    setState(() {
+                      category = value;
+                    });
+                  },
+                ),
                 SizedBox(height: 15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -146,10 +160,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text("Special For You", style: AppTextStyle.h3),
                     TextButton(
                       onPressed: () {
-                        context.read<ViewProvider>().changeView();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ViewAllScreen(),
+                          ),
+                        );
                       },
                       child: Text(
-                        viewProvider.viewAll ? "View Less" : "View All",
+                        viewProvider.viewAll ? "View All " : "View Less ",
                         style: AppTextStyle.withColor(
                           Colors.blue,
                           AppTextStyle.bodyLarge,
@@ -157,24 +176,65 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ],
-                ), // Row for Special For You
+                ),
 
                 SizedBox(height: 15),
-                // for Shopping Item
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: viewProvider.viewAll
-                      ? products.length
-                      : min(2, products.length),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: productCount,
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 20,
-                    childAspectRatio: 0.78,
-                  ),
-                  itemBuilder: (BuildContext context, int index) {
-                    return ProductCard(product: products[index]);
+                //  for Shopping Item
+                StreamBuilder(
+                  stream: category == "All"
+                      ? FirebaseFirestore.instance
+                            .collection('products')
+                            .snapshots()
+                      : FirebaseFirestore.instance
+                            .collection('products')
+                            .where(
+                              'category',
+                              isEqualTo: category.toLowerCase(),
+                            )
+                            .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+
+                    var docs = snapshot.data!.docs;
+
+                    return SizedBox(
+                      height: 420,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        itemCount: viewProvider.viewAll
+                            ? docs.length
+                            : min(3, docs.length),
+                        itemBuilder: (context, index) {
+                          var data = docs[index];
+                          final product = Product(
+                            title: data['title'] ?? '',
+                            description: data['description'] ?? '',
+                            images: List<String>.from(data['images'] ?? []),
+                            oldPrice: data['oldPrice']?.toDouble(),
+                            price: (data['price'] ?? 0).toDouble(),
+                            category: data['category'] ?? '',
+                            rating: (data['rating'] ?? 0).toDouble(),
+                            reviewCount: data['reviewCount'],
+                            quantity: data['quantity'] ?? 1,
+                            id: docs[index].id,
+                          );
+                          return SizedBox(
+                            width: 220,
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 12),
+                              child: ProductCard(
+                                product: product,
+                                isGrid: false,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
                   },
                 ),
               ],

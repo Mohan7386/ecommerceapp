@@ -16,7 +16,7 @@ class MyDetailImageSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 250,
+      height: 260,
       child: PageView.builder(
         controller: controller,
         onPageChanged: onChange,
@@ -24,7 +24,7 @@ class MyDetailImageSlider extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.asset(images[index], fit: BoxFit.contain),
+            child: Image.network(images[index], fit: BoxFit.contain),
           );
         },
       ),

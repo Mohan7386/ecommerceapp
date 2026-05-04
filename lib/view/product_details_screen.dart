@@ -1,7 +1,8 @@
 import 'package:ecommerce_app/controller/favorite_provider.dart';
 import 'package:ecommerce_app/utils/app_text_styles.dart';
+import 'package:ecommerce_app/view/checkout_screen.dart';
 import 'package:ecommerce_app/view/widgets/product_details_list_slider.dart';
-import 'package:ecommerce_app/view/widgets/sizeSelector.dart';
+import 'package:ecommerce_app/view/widgets/size_selector.dart';
 import 'package:ecommerce_app/view/widgets/detail_image_slider.dart';
 import 'package:ecommerce_app/view/widgets/product.dart';
 import 'package:ecommerce_app/view/widgets/rating_widget.dart';
@@ -105,8 +106,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   : Colors.transparent,
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(
-                                color: Colors.blue, // Set the border color here
-                                width: 2.0, // Set the border width here
+                                color: Colors.blue,
+                                width: 2.0,
                               ),
                             ),
                           );
@@ -211,7 +212,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,MaterialPageRoute(builder: (_) => CheckoutScreen()));
+                  },
                   child: Text(
                     'Buy Now',
                     style: AppTextStyle.withColor(

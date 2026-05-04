@@ -24,12 +24,18 @@ class CartProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-   totalPrice (){
-    double total1 = 0.0;
-    for (Product element in cart){
-      total1 += element.price * element.quantity;
+
+  void clearCart() {
+    cart.clear();
+    notifyListeners();
+  }
+
+  double get totalPrice {
+    double total = 0.0;
+    for (Product element in cart) {
+      total += element.price * element.quantity;
     }
-    return total1;
+    return total;
   }
 
   static CartProvider of(BuildContext context) {

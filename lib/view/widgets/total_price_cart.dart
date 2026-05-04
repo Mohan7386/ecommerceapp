@@ -1,5 +1,5 @@
 import 'package:ecommerce_app/utils/app_text_styles.dart';
-import 'package:ecommerce_app/view/widgets/custom_textField.dart';
+import 'package:ecommerce_app/view/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,10 +28,11 @@ class TotalPriceCart extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: CustomTextField(
-                    label: "Enter Discount Code",
-                    prefixIcon: Icons.local_offer_outlined,
-                  ),
+                  child: TextFormField(
+          decoration: InputDecoration(
+            labelText: "Name",
+          prefixIcon: Icon(Icons.discount_outlined))
+          ),
                 ),
                 const SizedBox(width: 10),
                 ElevatedButton(
@@ -52,7 +53,7 @@ class TotalPriceCart extends StatelessWidget {
             /// 🔹 Subtotal
             priceRow(
               "SubTotal",
-              "₹${provider.totalPrice().toStringAsFixed(0)}",
+              "₹${provider.totalPrice.toStringAsFixed(0)}",
             ),
 
             /// 🔹 Delivery
@@ -70,7 +71,7 @@ class TotalPriceCart extends StatelessWidget {
             /// 🔹 Total
             priceRow(
               "Total",
-              "₹${(provider.totalPrice() + 5).toStringAsFixed(0)}",
+              "₹${(provider.totalPrice + 5).toStringAsFixed(0)}",
               isBold: true,
             ),
           ],

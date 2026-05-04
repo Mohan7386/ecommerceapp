@@ -1,10 +1,11 @@
-import 'package:ecommerce_app/controller/navigationController.dart';
+import 'package:ecommerce_app/controller/navigation_controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'home_screen.dart';
-import 'orderScreen.dart';
+import 'order_screen.dart';
 import 'cart_screen.dart';
-import 'profileScreen.dart';
+import 'profile_screen.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -33,7 +34,9 @@ class MainScreen extends StatelessWidget {
         unselectedItemColor: Colors.black54,
         showUnselectedLabels: true,
         onTap: (value) {
-          print("Tapped index: $value");  // ← add this
+          if (kDebugMode) {
+            print("Tapped index: $value");
+          }  // ← add this
           nav.changeIndex(value);
         },
         items: const [
