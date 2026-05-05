@@ -19,13 +19,6 @@ class ProfileScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.blueAccent,
         centerTitle: true,
-        leading: Icon(Icons.arrow_back),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.more_vert_rounded, color: Colors.black),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(

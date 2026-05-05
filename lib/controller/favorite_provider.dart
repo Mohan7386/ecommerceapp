@@ -10,12 +10,7 @@ class FavoriteProvider extends ChangeNotifier {
   List<Product> _favorites = [];
   List<Product> get favorites => _favorites;
 
-  List<Product> _allProducts = [];
-
-  void setAllProducts(List<Product> products) {
-    _allProducts = products;
-    loadFavorite();
-  }
+  int get favoriteCount => _favorites.length;
 
   FavoriteProvider(){
     loadFavorite();
@@ -28,7 +23,16 @@ class FavoriteProvider extends ChangeNotifier {
   } else {
       _favorites.add(product);
       await _firestore.collection("userFavorite").doc(product.id).set({
-        "productId":product.id,
+        "productId": product.id,
+        "title": product.title,
+        "description": product.description,
+        "price": product.price,
+        "oldPrice": product.oldPrice,
+        "category": product.category,
+        "images": product.images,
+        "rating": product.rating,
+        "reviewCount": product.reviewCount,
+        "quantity": product.quantity,
       });
   }
     notifyListeners();
@@ -42,14 +46,25 @@ class FavoriteProvider extends ChangeNotifier {
     try {
       QuerySnapshot snapshot =
       await _firestore.collection("userFavorite").get();
-      List<String> favoriteIds = snapshot.docs.map((doc) => doc.id).toList();
 
-      _favorites = _allProducts
-          .where((product) => favoriteIds.contains(product.id))
-          .toList();
+      _favorites = snapshot.docs.map((doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        return Product(
+          id: doc.id,
+          title: data['title'] ?? '',
+          description: data['description'] ?? '',
+          images: List<String>.from(data['images'] ?? []),
+          oldPrice: data['oldPrice']?.toDouble(),
+          price: (data['price'] ?? 0).toDouble(),
+          category: data['category'] ?? '',
+          rating: (data['rating'] ?? 0).toDouble(),
+          reviewCount: data['reviewCount'],
+          quantity: data['quantity'] ?? 1,
+        );
+      }).toList();
     } catch (e){
       if (kDebugMode) {
-        print(e.toString());
+        print("Load Favorite Error: $e");
       }
     }
     notifyListeners();

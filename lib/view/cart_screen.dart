@@ -36,12 +36,6 @@ class _CartScreenState extends State<CartScreen> {
               padding: EdgeInsets.all(16),
               child: Row(
                 children: [
-                  IconButton(
-                    onPressed: () {
-                         Navigator.pop(context);
-                    },
-                    icon: Icon(Icons.arrow_back_ios),
-                  ),
                   Spacer(),
                   Text("My Cart ", style: AppTextStyle.h2),
                   Spacer(),

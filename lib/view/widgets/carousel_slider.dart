@@ -1,38 +1,45 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/controller/banner_controller.dart';
+import 'package:ecommerce_app/view/carousel_filter_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class BannerSlider extends StatelessWidget {
-  const BannerSlider({super.key});
+class CarouselBannerSlider extends StatelessWidget {
+  const CarouselBannerSlider({super.key});
 
   @override
   Widget build(BuildContext context) {
     final bannerProvider = Provider.of<BannerProvider>(context);
     final List<Map<String, dynamic>> banners = [
       {
-        "title": "Flat 50% Off",
+        "title": "Flat 30% Off",
         "subtitle": "On all summer collection",
         "color1": Colors.purpleAccent,
         "color2": Colors.pinkAccent,
+        "type": "discount",
+        "value": 30,
       },
       {
         "title": "Buy 1 Get 1 Free",
         "subtitle": "Limited time offer",
         "color1": Colors.blueAccent,
         "color2": Colors.teal,
+        "type": "offer",
       },
       {
-        "title": "Mega Sale 70%",
+        "title": "Mega Sale 50%",
         "subtitle": "Only Today",
         "color1": Colors.orange,
         "color2": Colors.red,
+        "type": "discount",
+        "value": 50,
       },
       {
         "title": "New Arrivals",
         "subtitle": "Check latest trends",
         "color1": Colors.green,
         "color2": Colors.lightGreen,
+        "type": "new",
       },
     ];
     return Column(
@@ -46,7 +53,6 @@ class BannerSlider extends StatelessWidget {
               autoPlay: true,
               viewportFraction: 1.0,
               enlargeCenterPage: true,
-              // enlargeStrategy: CenterPageEnlargeStrategy.height,
               onPageChanged: (index, reason) {
                 bannerProvider.changeIndex(index);
               },
@@ -89,7 +95,18 @@ class BannerSlider extends StatelessWidget {
                               ),
                               SizedBox(height: 12),
                               ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => FilteredProductsScreen(
+                                        type: banner["type"],
+                                        value: banner["value"],
+                                        title: banner["title"],
+                                      ),
+                                    ),
+                                  );
+                                },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.white,
                                   shape: RoundedRectangleBorder(

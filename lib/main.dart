@@ -23,7 +23,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => NavigationController()),
         ChangeNotifierProvider(create: (context) => BannerProvider()),
         ChangeNotifierProvider(create: (context) => ViewProvider()),
-        ChangeNotifierProvider(create: (_)=> CartProvider()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => FavoriteProvider()),
       ],
       child: MyApp(),
@@ -38,6 +38,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
 
+    if (auth.user != null) {
+      context.read<CartProvider>().setUserId(auth.user!.uid);
+    }
+
     if (!auth.isInitialized) {
       return MaterialApp(
         home: Scaffold(body: Center(child: CircularProgressIndicator())),
@@ -46,9 +50,7 @@ class MyApp extends StatelessWidget {
     }
 
     return MaterialApp(
-      home: auth.isLoggedIn
-          ? MainScreen()
-          : SignInScreen(),
+      home: auth.isLoggedIn ? MainScreen() : SignInScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

@@ -44,11 +44,17 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                         // Image
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
+                          child: product.images.isNotEmpty
+                              ? Image.network(
                             product.images[0],
                             width: 90,
                             height: 90,
                             fit: BoxFit.cover,
+                          ) : Container(
+                            width: 90,
+                            height: 90,
+                            color: Colors.grey.shade200,
+                            child: Icon(Icons.image_not_supported),
                           ),
                         ),
 
@@ -78,9 +84,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
                         // Delete button
                         IconButton(
-                          onPressed: () {
-                            favoriteList.removeAt(index);
-                            setState(() {});
+                            onPressed: () {
+                              provider.toggleFavorite(favoriteList[index]);
                           },
                           icon: Icon(Icons.delete),
                           color: Colors.red,

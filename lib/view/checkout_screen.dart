@@ -107,9 +107,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context); // dialog close
-                Navigator.pop(context); // checkout close
-                Navigator.pop(context); // cart close
+                Navigator.of(context).popUntil((route) => route.isFirst);
               },
               child: Text("OK", style: TextStyle(color: Colors.blue)),
             ),

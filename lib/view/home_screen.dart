@@ -6,11 +6,12 @@ import 'package:ecommerce_app/view/favorite_screen.dart';
 import 'package:ecommerce_app/view/view_all_screen.dart';
 import 'package:ecommerce_app/view/widgets/carousel_slider.dart';
 import 'package:ecommerce_app/view/widgets/category_grid.dart';
-import 'package:ecommerce_app/view/widgets/custom_text_field.dart';
 import 'package:ecommerce_app/view/widgets/product.dart';
 import 'package:ecommerce_app/view/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../controller/favorite_provider.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final viewProvider = context.watch<ViewProvider>();
     double width = MediaQuery.of(context).size.width;
+    final favoriteCount = context.watch<FavoriteProvider>().favoriteCount;
 
     // responsive counts
     int productCount = (width ~/ 250) < 2 ? 2 : (width ~/ 250);
@@ -77,12 +79,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     Icon(Icons.notifications, color: Colors.grey.shade700),
                     SizedBox(width: 10),
                     IconButton(
-                      style: IconButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadiusGeometry.circular(15),
-                        ),
-                        backgroundColor: Colors.white,
-                      ),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -91,11 +87,33 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       },
-                      icon: Icon(Icons.favorite_border_outlined),
+                      icon:  Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          const Icon(Icons.favorite_border_outlined),
+                          if (favoriteCount > 0)
+                            Positioned(
+                              right: -3,
+                              top: -2,
+                              child: CircleAvatar(
+                                radius: 7,
+                                backgroundColor: Colors.red,
+                                child: Text(
+                                  '$favoriteCount',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-                // 🔽 Location Dropdown
+
+                //  Location Dropdown
                 if (showLocation)
                   Container(
                     margin: EdgeInsets.only(top: 10),
@@ -131,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 SizedBox(height: 15),
                 // Banner Section
-                BannerSlider(),
+                CarouselBannerSlider(),
                 SizedBox(height: 15),
 
                 // Categories Section
@@ -177,7 +195,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-
                 SizedBox(height: 15),
                 //  for Shopping Item
                 StreamBuilder(
