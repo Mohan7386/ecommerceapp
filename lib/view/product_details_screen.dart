@@ -4,14 +4,14 @@ import 'package:ecommerce_app/view/checkout_screen.dart';
 import 'package:ecommerce_app/view/widgets/product_details_list_slider.dart';
 import 'package:ecommerce_app/view/widgets/size_selector.dart';
 import 'package:ecommerce_app/view/widgets/detail_image_slider.dart';
-import 'package:ecommerce_app/view/widgets/product.dart';
+import 'package:ecommerce_app/models/product_model.dart';
 import 'package:ecommerce_app/view/widgets/rating_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../controller/cart_provider.dart';
 
 class ProductDetailScreen extends StatefulWidget {
-  final Product product;
+  final ProductModel product;
   const ProductDetailScreen({super.key, required this.product});
 
   @override

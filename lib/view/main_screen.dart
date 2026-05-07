@@ -1,5 +1,5 @@
 import 'package:ecommerce_app/controller/cart_provider.dart';
-import 'package:ecommerce_app/controller/navigation_controller.dart';
+import 'package:ecommerce_app/controller/navigation_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,17 +11,17 @@ import 'profile_screen.dart';
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
+  static final List<Widget> screens = [
+    const HomeScreen(),
+    const CartScreen(),
+    const ProfileScreen(),
+    OrderScreen(),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    final nav = context.watch<NavigationController>();
+    final nav = context.watch<NavigationProvider>();
     final cartCount = context.watch<CartProvider>().cartCount;
-
-    final screens = [
-      const HomeScreen(),
-      const CartScreen(),
-      const ProfileScreen(),
-      OrderScreen(),
-    ];
 
     return Scaffold(
       body: SafeArea(bottom: false, child: screens[nav.currentIndex]),

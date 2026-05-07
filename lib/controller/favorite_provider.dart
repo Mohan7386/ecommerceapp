@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerce_app/services/favorite_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
-import '../view/widgets/product.dart';
+import '../models/product_model.dart';
 
 class FavoriteProvider extends ChangeNotifier {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+ final FavoriteService _favoriteService = FavoriteService();
 
-  List<Product> _favorites = [];
-  List<Product> get favorites => _favorites;
+  List<ProductModel> _favorites = [];
+  List<ProductModel> get favorites => _favorites;
 
   int get favoriteCount => _favorites.length;
 
@@ -16,52 +17,24 @@ class FavoriteProvider extends ChangeNotifier {
     loadFavorite();
   }
 
- void toggleFavorite (Product product) async{
+ void toggleFavorite (ProductModel product) async{
     if(isExist(product)){
     _favorites.removeWhere((item) => item.id == product.id);
-    await _firestore.collection("userFavorite").doc(product.id).delete();
+    await _favoriteService.removeFavorite(product.id);
   } else {
       _favorites.add(product);
-      await _firestore.collection("userFavorite").doc(product.id).set({
-        "productId": product.id,
-        "title": product.title,
-        "description": product.description,
-        "price": product.price,
-        "oldPrice": product.oldPrice,
-        "category": product.category,
-        "images": product.images,
-        "rating": product.rating,
-        "reviewCount": product.reviewCount,
-        "quantity": product.quantity,
-      });
-  }
+      await _favoriteService.addFavorite(product);
+      }
     notifyListeners();
   }
 
-  bool isExist(Product product){
+  bool isExist(ProductModel product){
   return _favorites.any((item) => item.id == product.id);
  }
   // load Favorites to fireStore
   Future<void> loadFavorite() async {
     try {
-      QuerySnapshot snapshot =
-      await _firestore.collection("userFavorite").get();
-
-      _favorites = snapshot.docs.map((doc) {
-        final data = doc.data() as Map<String, dynamic>;
-        return Product(
-          id: doc.id,
-          title: data['title'] ?? '',
-          description: data['description'] ?? '',
-          images: List<String>.from(data['images'] ?? []),
-          oldPrice: data['oldPrice']?.toDouble(),
-          price: (data['price'] ?? 0).toDouble(),
-          category: data['category'] ?? '',
-          rating: (data['rating'] ?? 0).toDouble(),
-          reviewCount: data['reviewCount'],
-          quantity: data['quantity'] ?? 1,
-        );
-      }).toList();
+      _favorites = await _favoriteService.loadFavorites();
     } catch (e){
       if (kDebugMode) {
         print("Load Favorite Error: $e");

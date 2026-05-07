@@ -2,12 +2,12 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app/utils/app_text_styles.dart';
-import 'package:ecommerce_app/view/widgets/product.dart';
+import 'package:ecommerce_app/models/product_model.dart';
 import 'package:ecommerce_app/view/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../controller/view_controller.dart';
+import '../controller/view_provider.dart';
 
 class ViewAllScreen extends StatefulWidget {
   const ViewAllScreen({super.key});
@@ -67,7 +67,7 @@ class _ViewAllScreenState extends State<ViewAllScreen> {
                   ),
                   itemBuilder: (context, index) {
                     var data = docs[index];
-                    final product = Product(
+                    final product = ProductModel(
                       title: data['title'] ?? '',
                       description: data['description'] ?? '',
                       images: List<String>.from(data['images'] ?? []),

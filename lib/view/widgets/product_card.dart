@@ -1,12 +1,12 @@
 import 'package:ecommerce_app/controller/favorite_provider.dart';
 import 'package:ecommerce_app/utils/app_text_styles.dart';
-import 'package:ecommerce_app/view/widgets/product.dart';
+import 'package:ecommerce_app/models/product_model.dart';
 import 'package:ecommerce_app/view/widgets/rating_widget.dart';
 import 'package:flutter/material.dart';
 import '../product_details_screen.dart';
 
 class ProductCard extends StatefulWidget {
-  final Product product;
+  final ProductModel product;
   final bool isGrid;
 
   const ProductCard({super.key, required this.product,  this.isGrid = false});
@@ -67,8 +67,8 @@ class _ProductCardState extends State<ProductCard> {
                             ? Icons.favorite
                             : Icons.favorite_border,
                         color: widget.product.isFavorite
-                            ? Colors.grey
-                            : Colors.red,
+                            ? Colors.red
+                            : Colors.grey,
                       ),
                     ),
                   ),

@@ -1,12 +1,12 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerce_app/controller/view_controller.dart';
+import 'package:ecommerce_app/controller/view_provider.dart';
 import 'package:ecommerce_app/utils/app_text_styles.dart';
 import 'package:ecommerce_app/view/favorite_screen.dart';
 import 'package:ecommerce_app/view/view_all_screen.dart';
 import 'package:ecommerce_app/view/widgets/carousel_slider.dart';
 import 'package:ecommerce_app/view/widgets/category_grid.dart';
-import 'package:ecommerce_app/view/widgets/product.dart';
+import 'package:ecommerce_app/models/product_model.dart';
 import 'package:ecommerce_app/view/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -226,18 +226,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             ? docs.length
                             : min(3, docs.length),
                         itemBuilder: (context, index) {
-                          var data = docs[index];
-                          final product = Product(
-                            title: data['title'] ?? '',
-                            description: data['description'] ?? '',
-                            images: List<String>.from(data['images'] ?? []),
-                            oldPrice: data['oldPrice']?.toDouble(),
-                            price: (data['price'] ?? 0).toDouble(),
-                            category: data['category'] ?? '',
-                            rating: (data['rating'] ?? 0).toDouble(),
-                            reviewCount: data['reviewCount'],
-                            quantity: data['quantity'] ?? 1,
-                            id: docs[index].id,
+                          var data = docs[index].data();
+                          final product = ProductModel.fromJson(
+                            data,
+                            docs[index].id,
                           );
                           return SizedBox(
                             width: 220,

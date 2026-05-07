@@ -1,9 +1,9 @@
-import 'package:ecommerce_app/controller/auth_controller.dart';
+import 'package:ecommerce_app/controller/auth_provider.dart';
 import 'package:ecommerce_app/controller/banner_controller.dart';
 import 'package:ecommerce_app/controller/cart_provider.dart';
 import 'package:ecommerce_app/controller/favorite_provider.dart';
-import 'package:ecommerce_app/controller/navigation_controller.dart';
-import 'package:ecommerce_app/controller/view_controller.dart';
+import 'package:ecommerce_app/controller/navigation_provider.dart';
+import 'package:ecommerce_app/controller/view_provider.dart';
 import 'package:ecommerce_app/firebase_options.dart';
 import 'package:ecommerce_app/view/main_screen.dart';
 import 'package:ecommerce_app/view/sign_in_screen.dart';
@@ -20,7 +20,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
-        ChangeNotifierProvider(create: (context) => NavigationController()),
+        ChangeNotifierProvider(create: (context) => NavigationProvider()),
         ChangeNotifierProvider(create: (context) => BannerProvider()),
         ChangeNotifierProvider(create: (context) => ViewProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()),

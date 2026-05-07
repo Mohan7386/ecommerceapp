@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'product.dart';
+import '../../models/product_model.dart';
 
 class RatingWidget extends StatelessWidget {
-  final Product product;
+  final ProductModel product;
   final bool showReviews;
 
   const RatingWidget({

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerce_app/controller/auth_controller.dart';
+import 'package:ecommerce_app/controller/auth_provider.dart';
 import 'package:ecommerce_app/controller/cart_provider.dart';
 import 'package:ecommerce_app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';

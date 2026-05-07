@@ -6,7 +6,7 @@ import 'package:ecommerce_app/view/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../controller/auth_controller.dart';
+import '../controller/auth_provider.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -118,10 +118,10 @@ class _SignupScreenState extends State<SignupScreen> {
                                     final error = await context
                                         .read<AuthProvider>()
                                         .signUp(
-                                      nameController.text,
-                                      phoneController.text,
-                                      emailController.text,
-                                      passwordController.text,
+                                     name:  nameController.text,
+                                     phone:  phoneController.text,
+                                     email:  emailController.text,
+                                     password:  passwordController.text,
                                     );
 
                                     if (!mounted) return;
@@ -207,6 +207,15 @@ class _SignupScreenState extends State<SignupScreen> {
                                     context,
                                   ).showSnackBar(
                                     SnackBar(content: Text(error)),
+                                  );
+                                }
+                                else {
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => MainScreen(),
+                                    ),
+                                        (route) => false,
                                   );
                                 }
                               },

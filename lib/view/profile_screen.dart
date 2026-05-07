@@ -4,7 +4,7 @@ import 'package:ecommerce_app/view/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../controller/auth_controller.dart';
+import '../controller/auth_provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});

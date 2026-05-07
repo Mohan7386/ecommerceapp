@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/controller/auth_controller.dart';
+import 'package:ecommerce_app/controller/auth_provider.dart';
 import 'package:ecommerce_app/utils/app_text_styles.dart';
 import 'package:ecommerce_app/utils/validators/validation.dart';
 import 'package:ecommerce_app/view/sign_up_screen.dart';
@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'forget_password_screen.dart';
+import 'main_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -134,8 +135,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                       final error = await context
                                           .read<AuthProvider>()
                                           .login(
-                                            emailController.text,
-                                            passwordController.text,
+                                           email: emailController.text,
+                                           password:  passwordController.text,
                                           );
 
                                       if (!mounted) return;
@@ -189,6 +190,15 @@ class _SignInScreenState extends State<SignInScreen> {
                                         context,
                                       ).showSnackBar(
                                         SnackBar(content: Text(error)),
+                                      );
+                                    }
+                                    else {
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => MainScreen(),
+                                        ),
+                                            (route) => false,
                                       );
                                     }
                                   },
