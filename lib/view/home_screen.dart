@@ -217,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     var docs = snapshot.data!.docs;
 
                     return SizedBox(
-                      height: 420,
+                      height: 360,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
@@ -232,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             docs[index].id,
                           );
                           return SizedBox(
-                            width: 220,
+                            width: 180,
                             child: Padding(
                               padding: EdgeInsets.only(right: 12),
                               child: ProductCard(

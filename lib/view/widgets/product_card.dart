@@ -41,7 +41,7 @@ class _ProductCardState extends State<ProductCard> {
             Stack(
               children: [
                 AspectRatio(
-                  aspectRatio: widget.isGrid ? 1 / 1 : 4 / 5, //  grid vs horizontal
+                  aspectRatio: widget.isGrid ? 1 / 1 : 1 / 1, //  grid vs horizontal
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
@@ -56,7 +56,7 @@ class _ProductCardState extends State<ProductCard> {
                   top: 5,
                   right: 5,
                   child: CircleAvatar(
-                    radius: 18,
+                    radius: 19,
                     backgroundColor: Colors.white,
                     child: IconButton(
                       onPressed: () {
@@ -67,8 +67,8 @@ class _ProductCardState extends State<ProductCard> {
                             ? Icons.favorite
                             : Icons.favorite_border,
                         color: widget.product.isFavorite
-                            ? Colors.red
-                            : Colors.grey,
+                            ? Colors.grey
+                            : Colors.red,
                       ),
                     ),
                   ),
